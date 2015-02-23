@@ -104,7 +104,6 @@ public class MinHash {
                 }
             }
         }
-        System.out.println(result.toString());
 		return result;
 	}
 

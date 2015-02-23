@@ -42,7 +42,7 @@ public class main {
         mh.addSet(s3);
         mh.addSet(s4);
 
-        mh.computeSignature();
+        System.out.println(mh.computeSignature());
 
 	    exercise1_3(mh);
 	}
