@@ -8,6 +8,7 @@
 *.iml
 *.xml
 *.iws
+out/
 
 # Mac
 .DS_Store
