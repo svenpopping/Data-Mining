@@ -26,8 +26,25 @@ public class main {
 	
 	public static void exercise1_2() {
 		// ADD CODE HERE
-		
-		//exercise1_3(mh);
+		ShingleSet s1 = new ShingleSet(1), s2 = new ShingleSet(1), s3 = new ShingleSet(1), s4 = new ShingleSet(1);
+
+        s1.shingleString("ad");
+        s2.shingleString("c");
+        s3.shingleString("bde");
+        s4.shingleString("acd");
+
+        MinHash mh = new MinHash();
+        mh.addHashFunction(new HashFunction(1, 1));
+        mh.addHashFunction(new HashFunction(3, 1));
+
+        mh.addSet(s1);
+        mh.addSet(s2);
+        mh.addSet(s3);
+        mh.addSet(s4);
+
+        mh.computeSignature();
+
+	    exercise1_3(mh);
 	}
 	
 	public static void exercise1_3(MinHash mh) {

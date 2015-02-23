@@ -89,9 +89,17 @@ public class MinHash {
 		
 		MinHashSignature result = new MinHashSignature(hashes.size(), sets.size());
 		List<String> spaceList = new ArrayList<String>(space);
-		
-		// ADD CODE HERE
-		
+        // ADD CODE HERE
+        for (int k = 0; k < spaceList.size(); k++) {
+            for (int i = 0; i < sets.size(); i++) {
+                if (sets.get(i).contains(spaceList.get(k))) {
+                    for (int j = 0; j < hashes.size(); j++) {
+                        result.set(i, j, Integer.min(result.get(i, j), hashes.get(j).hashCode(k, spaceList.size())));
+                    }
+                }
+            }
+        }
+        System.out.println(result.toString());
 		return result;
 	}
 
