@@ -18,7 +18,7 @@ public class ShingleSet extends TreeSet<String> implements SortedSet<String> {
 	 * The size of the shingles.
 	 */
 	private int k;
-	
+
 	/**
 	 * Constructor for the ShingleSet.
 	 * @param k The size of the shingles.
@@ -26,32 +26,37 @@ public class ShingleSet extends TreeSet<String> implements SortedSet<String> {
 	public ShingleSet(int k) {
 		this.k = k;
 	}
-	
+
 	/**
 	 * Add shingles of size k to the set from String s.
 	 * @param s The string that is to be transformed to shingles.
 	 */
 	public void shingleString(String s) {
-		// ADD CODE HERE
+        for (int i = 0; i < s.length() - (k - 1); i++) {
+            this.add(s.substring(i, i + k));
+        }
 	}
-	
+
 	/**
 	 * Add shingles of size k to the set from String s, where all white spaces from s are removed.
 	 * @param s The string that is to be transformed to shingles.
 	 */
 	public void shingleStrippedString(String s) {
-		// ADD CODE HERE
+        s = s.replaceAll("\\s", "");
+        this.shingleString(s);
 	}
-	
+
 	/**
 	 * Calculates the Jaccard distance between this set and the other set.
 	 * @param other The other set of shingles that this set will be compared to.
 	 * @return The Jaccard distance between this set and the other set.
 	 */
 	public double jaccardDistance(TreeSet<String> other) {
-		// ADD CODE HERE
-		
-		return 0.0; // remove when code is completed
+        TreeSet<String> one = (TreeSet<String>) this.clone(), two = (TreeSet<String>) this.clone();
+        one.retainAll(other);
+        two.addAll(other);
+
+		return 1 -  ((double) one.size() / (double) two.size());
 	}
 
 }
