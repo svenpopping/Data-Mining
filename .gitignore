@@ -6,6 +6,7 @@
 # Intellij
 .idea/
 *.iml
+*.xml
 *.iws
 
 # Mac
