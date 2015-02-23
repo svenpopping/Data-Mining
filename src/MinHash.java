@@ -94,7 +94,12 @@ public class MinHash {
             for (int i = 0; i < sets.size(); i++) {
                 if (sets.get(i).contains(spaceList.get(k))) {
                     for (int j = 0; j < hashes.size(); j++) {
-                        result.set(i, j, Integer.min(result.get(i, j), hashes.get(j).hashCode(k, spaceList.size())));
+                        result.set(j, i,
+                                Integer.min(
+                                        result.get(j, i),
+                                        hashes.get(j).hashCode(k, spaceList.size())
+                                )
+                        );
                     }
                 }
             }
