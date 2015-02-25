@@ -28,20 +28,38 @@ public class LSH {
 		Set<List<Integer>> candidates = new HashSet<List<Integer>>();
 		
 		// ADD CODE HERE
-        ArrayList<ArrayList<Integer>> buckets = new ArrayList<ArrayList<Integer>>(bs);
+        ArrayList<ArrayList<Integer>> buckets = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i < bs; i++) {
+            buckets.add(new ArrayList<Integer>());
+        }
+        ArrayList<Integer> hashes = new ArrayList<Integer>();
 
         for (int i = 0; i < b; i = i + r) {
             for (int j = 0; j < mhs.cols(); j++) {
                 String s = mhs.colSegment(j, i, i + r);
-                buckets.get(s.hashCode()).add(j);
+
+                int hash = s.hashCode();
+                int indexHash = hashes.indexOf(hash);
+
+                if (indexHash != -1) {
+                    buckets.get(indexHash).add(j);
+                } else {
+                    hashes.add(hash);
+                    buckets.get(hashes.indexOf(hash)).add(j);
+                }
             }
         }
 
-        System.out.println(buckets);
-
         for (int i = 0; i < b; i++) {
             for (int j = 0; j < mhs.cols(); j++) {
+                String s = mhs.colSegment(j, i, i + r);
 
+                int hash = s.hashCode();
+                int indexHash = hashes.indexOf(hash);
+
+                if (indexHash != -1 && buckets.get(indexHash).size() > 1) {
+                    candidates.add(buckets.get(indexHash));
+                }
             }
         }
 		return candidates;

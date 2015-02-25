@@ -47,10 +47,12 @@ public class main {
         MinHash mh2 = new MinHash();
         mh2.addRandomHashFunctions(100);
 
-        System.out.println(mh2.computeSignature());
+        mh2.addSet(s1);
+        mh2.addSet(s2);
+        mh2.addSet(s3);
+        mh2.addSet(s4);
 
-        LSH.computeCandidates(mh2.computeSignature(), 1000, 5);
-
+        System.out.println(LSH.computeCandidates(mh2.computeSignature(), 1000, 5));
 	    exercise1_3(mh);
 	}
 	
