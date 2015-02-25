@@ -78,7 +78,8 @@ public class MinHash {
 	 * @param n The number of functions to add.
 	 */
 	public void addRandomHashFunctions(int n) {
-		addRandomHashFunctions(n, n, n);
+
+        addRandomHashFunctions(n, n, n);
 	}
 	
 	/**

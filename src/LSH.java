@@ -28,7 +28,22 @@ public class LSH {
 		Set<List<Integer>> candidates = new HashSet<List<Integer>>();
 		
 		// ADD CODE HERE
-		
+        ArrayList<ArrayList<Integer>> buckets = new ArrayList<ArrayList<Integer>>(bs);
+
+        for (int i = 0; i < b; i = i + r) {
+            for (int j = 0; j < mhs.cols(); j++) {
+                String s = mhs.colSegment(j, i, i + r);
+                buckets.get(s.hashCode()).add(j);
+            }
+        }
+
+        System.out.println(buckets);
+
+        for (int i = 0; i < b; i++) {
+            for (int j = 0; j < mhs.cols(); j++) {
+
+            }
+        }
 		return candidates;
 	}
 	
