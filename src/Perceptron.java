@@ -41,15 +41,13 @@ public class Perceptron {
 			for (int i = 0; i < fv.size(); i++)
 				weights.add(0.0);
 		}
-		
-		// Loop through the feature vector and the weight vector
-        for (int i = 0; i < fv.size(); i++) {
-            // Only change w if it gives a wrong prediction
-            if (fv.label != Math.signum(weights.get(i) * fv.get(i)))
-                // Set a new weight according to the given function
-                weights.set(i, weights.get(i) + this.learningRate * fv.label * fv.get(i));
-        }
 
+        if (fv.label != Math.signum(this.predict(fv))) {
+            // Set a new weight according to the given function
+            for (int i = 0; i < weights.size(); i++) {
+                weights.set(i, weights.get(i) + learningRate * fv.label * fv.get(i));
+            }
+        }
 	}
 
 	/**

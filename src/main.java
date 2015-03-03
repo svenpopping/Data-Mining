@@ -17,8 +17,8 @@ public class main {
         DigitFrame df1 = new DigitFrame("train_digits 1");
         DigitFrame df2 = new DigitFrame("train_digits 0");
 
-//        df1.showImage(d2.get(50), 8, 8);
-//        df2.showImage(d2.get(49), 8, 8);
+        df1.showImage(d2.get(50), 8, 8);
+        df2.showImage(d2.get(49), 8, 8);
         // Amount of zeros = 50, Amount of ones 50
 
         Perceptron p2 = new Perceptron(1);
@@ -26,13 +26,16 @@ public class main {
         p2.updateWeights(d2);
 
         DigitFrame df3 = new DigitFrame("weights");
-//        df3.showImage(p2.getWeights(), 8, 8);
+        df3.showImage(p2.getWeights(), 8, 8);
 
+        DigitFrame df4 = new DigitFrame("Wrong predicts");
         Dataset d3 = new Dataset("data/test_digits.txt", true);
         double error = 0.0;
         for (int i = 0; i < d3.size(); i++) {
-            if (d3.get(i).getLabel() != p2.predict(d3.get(i)))
+            if (d3.get(i).getLabel() != p2.predict(d3.get(i))){
                 error++;
+                df4.showImage(d3.get(i), 8, 8);
+            }
         }
         error = error/d3.size();
         System.out.println(error);
@@ -48,8 +51,8 @@ public class main {
 
 	public static void main(String[] args) {
 //		perceptron();
-		perceptronDigits();
-		//nearestNeighbour();
+//		perceptronDigits();
+		nearestNeighbour();
 		//nearestNeighbourDigits();
 	}
 
