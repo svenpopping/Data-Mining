@@ -55,8 +55,8 @@ public class main {
 
 	public static void main(String[] args) {
 //		perceptron();
-//		perceptronDigits();
-		nearestNeighbour();
+		perceptronDigits();
+//		nearestNeighbour();
 		//nearestNeighbourDigits();
 	}
 
