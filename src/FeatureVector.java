@@ -41,9 +41,7 @@ public class FeatureVector extends ArrayList<Double> {
         for (int i = 0; i < size() - 1; i++) {
             result += this.get(i) * weights.get(i); // (a(d) * b(d)
         }
-
-        System.out.println(result);
-		return result;
+        return result;
 	}
 
 	/**
