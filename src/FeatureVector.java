@@ -37,6 +37,9 @@ public class FeatureVector extends ArrayList<Double> {
 		double result = 0.0;
 		
 		// add code here
+        for (int i = 0; i < size(); i++) {
+            result += this.get(i) * weights.get(i);
+        }
 
 		return result;
 	}
@@ -52,6 +55,9 @@ public class FeatureVector extends ArrayList<Double> {
 		double result = 0.0;
 		
 		// add code here
+        for (int i = 0; i < size(); i++) {
+            result += Math.pow(this.get(i) - vector.get(i), 2);
+        }
 
 		return Math.sqrt(result);
 	}
