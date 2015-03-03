@@ -38,7 +38,8 @@ public class FeatureVector extends ArrayList<Double> {
 
         // Formula: SUM((a(d) * b(d))
         // So for each element in FeactorVector
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < size() - 1; i++) {
+            System.out.println(this.get(i) + " " + weights.get(i));
             result += this.get(i) * weights.get(i); // (a(d) * b(d)
         }
 
