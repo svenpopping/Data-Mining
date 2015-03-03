@@ -42,7 +42,11 @@ public class main {
     }
 
 	public static void nearestNeighbour() {
-		// add code here
+		NearestNeighbour nearestNeighbour = new NearestNeighbour();
+        nearestNeighbour.readData("data/banana.txt");
+
+        NearestNeighbourPlotter nearestNeighbourPlotter = new NearestNeighbourPlotter(3);
+        nearestNeighbourPlotter.plotData(nearestNeighbour);
 	}
 	
 	public static void nearestNeighbourDigits() {
