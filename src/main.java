@@ -50,14 +50,26 @@ public class main {
 	}
 	
 	public static void nearestNeighbourDigits() {
-		// add code here
-	}
+        NearestNeighbour nearestNeighbour2 = new NearestNeighbour();
+        nearestNeighbour2.readData("data/test_digits.txt");
+
+        Dataset d4 = new Dataset("data/test_digits.txt",true);
+
+        double error = 0.0;
+        for (int i = 0; i < d4.size(); i++) {
+            if (d4.get(i).getLabel() != nearestNeighbour2.predict(d4.get(i), 3)){
+                error++;
+            }
+        }
+        error = error/d4.size();
+        System.out.println(error);
+    }
 
 	public static void main(String[] args) {
 //		perceptron();
-		perceptronDigits();
+//		perceptronDigits();
 //		nearestNeighbour();
-		//nearestNeighbourDigits();
+//		nearestNeighbourDigits();
 	}
 
 }

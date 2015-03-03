@@ -42,7 +42,7 @@ public class NearestNeighbour {
 		int label = -1;
 
 		// make HashMap to store the other objects
-        Map<Double, FeatureVector> distances = new HashMap<Double, FeatureVector>(); // Sort them by distance, smallest distances first.
+        Map<Double, FeatureVector> distances = new TreeMap<Double, FeatureVector>(); // Sort them by distance, smallest distances first.
 
         // store every object from the dataset in the HashMap (sorted by distance)
         for (int i = 0; i < this.getDataset().size(); i++) { //foreach element in the dataset.
@@ -50,7 +50,6 @@ public class NearestNeighbour {
             distances.put(distance, this.getDataset().get(i));
         }
 
-        System.out.println(distances.keySet());
 
         // get the k nearest object from the HashMap
         Collection<FeatureVector> values = distances.values();
@@ -61,18 +60,24 @@ public class NearestNeighbour {
         }
 
         // count the number of different labels
-        int one = 0;
-        int two = 0;
+        ArrayList<Integer> labelList = new ArrayList<Integer>();
         Iterator<FeatureVector> nearestNeighboursIterator = nearestNeighbours.iterator();
         while (nearestNeighboursIterator.hasNext()) {
-            if (nearestNeighboursIterator.next().getLabel() == 1)
-                one ++;
-            else if (nearestNeighboursIterator.next().getLabel() == -1)
-                two++;
+            FeatureVector next = nearestNeighboursIterator.next();
+            labelList.add(next.getLabel());
         }
 
+        int[] counter = new int[labelList.size() + 2];
+        for (int i = 0; i < labelList.size(); i++) {
+            counter[labelList.get(i)+1]++;
+        }
+
+        label = 0;
+        for (int i = 0; i < counter.length; i++) {
+            if (counter[i] > counter[label])
+                label = i;
+        }
         // return the predicted label
-        label = (one > two) ? 1 : -1;
-        return label;
+        return label - 1;
 	}
 }
