@@ -53,19 +53,21 @@ public class NearestNeighbour {
         System.out.println(distances.keySet());
 
         // get the k nearest object from the HashMap
-        FeatureVector[] values = (FeatureVector[]) distances.values().toArray();
-        FeatureVector[] nearestNeighbours = new FeatureVector[k];
+        Collection<FeatureVector> values = distances.values();
+        Collection<FeatureVector> nearestNeighbours = new ArrayList<FeatureVector>();
+        Iterator<FeatureVector> valueIterator = values.iterator();
         for (int i = 0; i < k; i++) {
-            nearestNeighbours[i] = values[i];
+            nearestNeighbours.add(valueIterator.next());
         }
 
         // count the number of different labels
         int one = 0;
         int two = 0;
-        for (int i = 0; i < nearestNeighbours.length; i++) {
-            if (nearestNeighbours[i].getLabel() == 1)
+        Iterator<FeatureVector> nearestNeighboursIterator = nearestNeighbours.iterator();
+        while (nearestNeighboursIterator.hasNext()) {
+            if (nearestNeighboursIterator.next().getLabel() == 1)
                 one ++;
-            else if (nearestNeighbours[i].getLabel() == -1)
+            else if (nearestNeighboursIterator.next().getLabel() == -1)
                 two++;
         }
 
