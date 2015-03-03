@@ -35,10 +35,11 @@ public class FeatureVector extends ArrayList<Double> {
 		assert(weights.size() == size());
 
 		double result = 0.0;
-		
-		// add code here
+
+        // Formula: SUM((a(d) * b(d))
+        // So for each element in FeactorVector
         for (int i = 0; i < size(); i++) {
-            result += this.get(i) * weights.get(i);
+            result += this.get(i) * weights.get(i); // (a(d) * b(d)
         }
 
 		return result;
@@ -54,11 +55,11 @@ public class FeatureVector extends ArrayList<Double> {
 
 		double result = 0.0;
 		
-		// add code here
+		// Formula: SQRT( SUM((a(d) - b(d)^2) )
+        // So for each element in FeactorVector
         for (int i = 0; i < size(); i++) {
-            result += Math.pow(this.get(i) - vector.get(i), 2);
+            result += Math.pow(this.get(i) - vector.get(i), 2); // Calculate (a(d) - b(d)^2)
         }
-
 		return Math.sqrt(result);
 	}
 
