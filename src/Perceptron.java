@@ -15,7 +15,6 @@ public class Perceptron {
 
 	/**
 	 * Constructor.
-	 * @param fs The feature size.
 	 * @param lr The learning rate.
 	 */
 	public Perceptron(double lr) {
@@ -43,12 +42,19 @@ public class Perceptron {
 				weights.add(0.0);
 		}
 		
-		// add code here
+		// Loop through the feature vector and the weight vector
+        for (int i = 0; i < fv.size(); i++) {
+            // Only change w if it gives a wrong prediction
+            if (fv.label != Math.signum(weights.get(i) * fv.get(i)))
+                // Set a new weight according to the given function
+                weights.set(i, weights.get(i) + this.learningRate * fv.label * fv.get(i));
+        }
+
 	}
 
 	/**
 	 * Uses all training items to train the perceptron.
-	 * @param p The perceptron to be trained.
+	 * @param dataset The perceptron to be trained.
 	 */
 	public void updateWeights(Dataset dataset) {		
 		for (FeatureVector fv: dataset) {
