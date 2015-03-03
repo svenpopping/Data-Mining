@@ -34,6 +34,7 @@ public class ShingleSet extends TreeSet<String> implements SortedSet<String> {
 	public void shingleString(String s) {
         for (int i = 0; i < s.length() - (k - 1); i++) {
             this.add(s.substring(i, i + k));
+            System.out.println(s.substring(i, i+k));
         }
 	}
 
