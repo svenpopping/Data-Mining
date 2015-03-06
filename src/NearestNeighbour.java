@@ -44,14 +44,14 @@ public class NearestNeighbour {
 		// make HashMap to store the other objects
         Map<Double, FeatureVector> distances = new TreeMap<Double, FeatureVector>(); // Sort them by distance, smallest distances first.
 
-        // store every object from the dataset in the HashMap (sorted by distance)
+        // store every object from the dataset in the TreeMap (sorted by distance)
         for (int i = 0; i < this.getDataset().size(); i++) { //foreach element in the dataset.
             double distance = this.getDataset().get(i).distance(features); // Calculate the distance
             distances.put(distance, this.getDataset().get(i));
         }
 
 
-        // get the k nearest object from the HashMap
+        // get the k nearest object from the TreeMap
         Collection<FeatureVector> values = distances.values();
         Collection<FeatureVector> nearestNeighbours = new ArrayList<FeatureVector>();
         Iterator<FeatureVector> valueIterator = values.iterator();

@@ -9,7 +9,7 @@ public class main {
         p1.updateWeights(d1);
 
         pp1.plotData(d1, p1);
-        // Equation for decision line is y = -8x
+        // Equation for decision line is y = -3x
 	}
 
 	public static void perceptronDigits() {
@@ -67,7 +67,7 @@ public class main {
 
 	public static void main(String[] args) {
 //		perceptron();
-//		perceptronDigits();
+		perceptronDigits();
 //		nearestNeighbour();
 //		nearestNeighbourDigits();
 	}
