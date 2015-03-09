@@ -10,10 +10,26 @@ import java.util.Map.Entry;
 public class main {
 
 	public static void main(String[] args) {
+        PageRank pageRank = new PageRank();
+        pageRank.importData("data/example.txt");
+//        System.out.println(pageRank.data.toString());
 
-        // FILL IN YOUR CODE HERE
+//        System.out.println(pageRank.constructTransitionMatrix());
 
-	}
+        System.out.println(pageRank.calculatePageRank(10));
+
+        PageRank pageRank2 = new PageRank();
+        pageRank2.importData("data/example2.txt");
+        System.out.println(pageRank2.calculatePageRank(11));
+
+        TaxationPageRank taxationPageRank = new TaxationPageRank(0.8);
+        taxationPageRank.importData("data/example2.txt");
+        System.out.println(taxationPageRank.calculatePageRank(11));
+
+        TaxationPageRank taxationPageRank2 = new TaxationPageRank(0.8);
+        taxationPageRank2.importData("data/flight_data.txt");
+        System.out.println(sortByValues(taxationPageRank2.calculatePageRank(11)));
+    }
 
 	/*
 	 * Java method to sort Map in Java by value e.g. HashMap or Hashtable

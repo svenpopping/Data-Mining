@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class PageRank {
 	/**
@@ -69,8 +67,22 @@ public class PageRank {
 	public Matrix constructTransitionMatrix() {
 		// the resulting matrix
 		Matrix transitionMatrix = new Matrix(data.size(), data.size());
-        
-        // FILL IN YOUR CODE HERE
+
+        Iterator<LinkedHashMap<String, Integer>> dataIterator = data.values().iterator();
+        for (int i = 0; i < data.size(); i++) {
+            Collection<Integer> current = dataIterator.next().values();
+            Iterator<Integer> outIterator = current.iterator();
+            Iterator<Integer> weightIterator = current.iterator();
+
+            double totalOut = 0;
+            while (outIterator.hasNext())
+                totalOut += outIterator.next();
+
+            for (int j = 0; j < data.size(); j++) {
+                double weight = weightIterator.next();
+                transitionMatrix.set(j,i,weight/totalOut);
+            }
+        }
 
 		return transitionMatrix;
 	}
@@ -80,8 +92,9 @@ public class PageRank {
 	 */
 	public Matrix getRandomSurferVector() {
 		Matrix result = new Matrix(data.size(), 1);
-
-        // FILL IN YOUR CODE HERE
+        for (int i = 0; i < data.size(); i++) {
+            result.set(i,0,1.0/data.size());
+        }
 
 		return result;
 	}
@@ -98,10 +111,12 @@ public class PageRank {
 		HashMap<String, Double> result = new HashMap<String, Double>();
 
 		// the tools
-		Matrix transitionMatrix = null;
-		Matrix randomSurfer = null;
+		Matrix transitionMatrix = this.constructTransitionMatrix();
+		Matrix randomSurfer = this.getRandomSurferVector();
 
-        // FILL IN YOUR CODE HERE
+        for (int i = 0; i < iterations; i++) {
+            randomSurfer = transitionMatrix.dot(randomSurfer);
+        }
 
 		// fill the results, match names with PageRank values
 		int count = 0;
