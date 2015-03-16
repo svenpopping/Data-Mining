@@ -22,7 +22,7 @@ public class APriori {
 
 	/**
 	 * Constructor for the A-Priori class.
-	 * @param s The support threshold value.
+	 * @param st The support threshold value.
 	 */
 	public APriori(int st) {
 		supportThreshold = st;
@@ -90,9 +90,16 @@ public class APriori {
 				}
 			}
 		} else {
-			// add code here
-			
-		}
+            Object[] p = filteredCandidates.toArray();
+            for (int i = 0; i < p.length; i++) {
+                for (int j = i + 1; j < p.length; j++) {
+                    StringSet current = new StringSet((StringSet) p[i]);
+                    current.addAll((StringSet) p[j]);
+                    if (current.size() == k)
+                        candidates.add(current);
+                }
+            }
+        }
 
 		return candidates;
 	}
@@ -107,7 +114,19 @@ public class APriori {
 		// the result
 		Map<StringSet, Integer> candidatesCount = new HashMap<StringSet, Integer>();
 
-		// add code here		
+        for (int i = 0; i < baskets.size(); i++) {
+            Set<StringSet> subSets = getSubsets(baskets.get(i),k);
+            Iterator<StringSet> subSetIterator = subSets.iterator();
+            while (subSetIterator.hasNext()){
+                StringSet currentSet = subSetIterator.next();
+                if (candidates.contains(currentSet)) {
+                    if (candidatesCount.containsKey(currentSet))
+                        candidatesCount.put(currentSet, candidatesCount.get(currentSet) + 1);
+                    else
+                        candidatesCount.put(currentSet, 1);
+                }
+            }
+        }
 
 		return candidatesCount;
 	}
@@ -121,8 +140,13 @@ public class APriori {
 	public Set<StringSet> filterCandidates(Map<StringSet, Integer> candidatesCount) {
 		// the result
 		Set<StringSet> filteredCandidates = new HashSet<StringSet>();
+        Iterator<Entry<StringSet,Integer>> entryIterator = candidatesCount.entrySet().iterator();
 
-		// add code here
+        while (entryIterator.hasNext()){
+            Entry<StringSet,Integer> current = entryIterator.next();
+            if (current.getValue() >= supportThreshold)
+                filteredCandidates.add(current.getKey());
+        }
 
 		return filteredCandidates;
 	}
@@ -135,8 +159,17 @@ public class APriori {
 	public Set<StringSet> getFrequentSets(int k) {
 		// the result
 		Set<StringSet> filteredCandidates = null;
+        for (int i = 1; i <= k; i++) {
+            Set<StringSet> construct = constructCandidates(filteredCandidates,i);
+            Map<StringSet,Integer> count = countCandidates(construct,i);
+            Set<StringSet> filter = filterCandidates(count);
+            try {
+                filteredCandidates.addAll(filter);
+            } catch (Exception e) {
+                filteredCandidates = filter;
+            }
 
-		// add code here
+        }
 
 		return filteredCandidates;
 	}
