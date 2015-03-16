@@ -1,9 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 public class PCY extends APriori {
@@ -47,7 +42,15 @@ public class PCY extends APriori {
 				}
 			}
 		} else {
-			// add code here
+            Object[] p = filteredCandidates.toArray();
+            for (int i = 0; i < p.length; i++) {
+                for (int j = i + 1; j < p.length; j++) {
+                    StringSet current = new StringSet((StringSet) p[i]);
+                    current.addAll((StringSet) p[j]);
+                    if (current.size() == k && buckets.get(Math.abs(current.hashCode()) % bucketSize) >= supportThreshold)
+                        candidates.add(current);
+                }
+            }
 		}
 
 		return candidates;
@@ -73,7 +76,38 @@ public class PCY extends APriori {
 		// the result
 		Map<StringSet, Integer> candidatesCount = new HashMap<StringSet, Integer>();
 
+        Set<StringSet> singletons = new HashSet<StringSet>();
+        for (Set<String> basket: baskets) {
+            for (String s: basket) {
+                StringSet sl = new StringSet();
+                sl.add(s);
+                singletons.add(sl);
+            }
+        }
+        for (int i = 0; i < baskets.size(); i++) {
+            Set<StringSet> subSets = getSubsets(baskets.get(i),k);
+            Iterator<StringSet> subSetIterator = subSets.iterator();
+            while (subSetIterator.hasNext()){
+                StringSet currentSet = subSetIterator.next();
+                if (candidates.contains(currentSet)) {
+                    if (candidatesCount.containsKey(currentSet))
+                        candidatesCount.put(currentSet, candidatesCount.get(currentSet) + 1);
+                    else
+                        candidatesCount.put(currentSet, 1);
+                }
+            }
+        }
 
+        Object[] singletonArray = singletons.toArray();
+        for (int i = 0; i < singletonArray.length; i++) {
+            StringSet s1 = (StringSet) singletonArray[i];
+            for (int j = i; j < singletonArray.length; j++) {
+                StringSet s2 = (StringSet) singletonArray[j];
+                s2.addAll(s1);
+                int hashCode = Math.abs(s2.hashCode()) % bucketSize;
+                buckets.set(hashCode,buckets.get(hashCode) + 1);
+            }
+        }
 
 		return candidatesCount;
 	}
