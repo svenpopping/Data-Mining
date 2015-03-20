@@ -84,6 +84,7 @@ public class PCY extends APriori {
                 singletons.add(sl);
             }
         }
+
         for (int i = 0; i < baskets.size(); i++) {
             Set<StringSet> subSets = getSubsets(baskets.get(i),k);
             Iterator<StringSet> subSetIterator = subSets.iterator();
@@ -98,18 +99,20 @@ public class PCY extends APriori {
             }
         }
 
-        Object[] singletonArray = singletons.toArray();
+        StringSet[] singletonArray = singletons.toArray(new StringSet[singletons.size()]);
         for (int i = 0; i < singletonArray.length; i++) {
-            StringSet s1 = (StringSet) singletonArray[i];
-            for (int j = i; j < singletonArray.length; j++) {
-                StringSet s2 = (StringSet) singletonArray[j];
-                s2.addAll(s1);
-                int hashCode = Math.abs(s2.hashCode()) % bucketSize;
+            StringSet s1 = singletonArray[i];
+            for (int j = i + 1; j < singletonArray.length; j++) {
+                StringSet s2 = singletonArray[j];
+                StringSet current = new StringSet();
+                current.add(s1.toString().replaceAll("[\\[\\]]",""));
+                current.add(s2.toString().replaceAll("[\\[\\]]",""));
+                int hashCode = Math.abs(current.hashCode()) % bucketSize;
                 buckets.set(hashCode,buckets.get(hashCode) + 1);
             }
         }
 
-		return candidatesCount;
+        return candidatesCount;
 	}
 
 }
