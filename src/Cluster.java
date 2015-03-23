@@ -172,9 +172,13 @@ public class Cluster extends ArrayList<FeatureVector> {
 	public double calculateAverageRSS() {		
 		if (size() == 0)
 			return Double.NaN;
-		
+
 		double rss = 0.0;
-		// add code here
+
+        for (int i = 0; i < this.size(); i++) {
+            rss += Math.sqrt(this.get(i).distance(centroid));
+        }
+
 		return rss / size();
 	}
 }

@@ -71,7 +71,11 @@ public class KMeans {
 	 * Adds a new init point at a random location in the dataset.
 	 */
 	private void addInitPoint() {
-		// add code here
+        int random = (int) (Math.random() * data.size());
+        Cluster newCluster = new Cluster();
+        newCluster.add(this.data.get(random));
+
+        this.clusters.add(newCluster);
 	}
 	
 	/**
@@ -89,5 +93,34 @@ public class KMeans {
 	 */
 	public void update() {
 		// add code here
-	}
+        if (this.getClusterSize() == 0) {
+            for (int i = 0; i < k; i++) {
+                this.addInitPoint();
+            }
+        }
+
+        List<FeatureVector> centroids = new ArrayList<FeatureVector>();
+        for (Cluster cluster : clusters) {
+            if(cluster.centroid() != null)
+                centroids.add(cluster.centroid());
+        }
+
+        this.clearClusters();
+
+        for (int i = 0; i < data.size(); i++) {
+            double minDistance = Double.MAX_VALUE;
+            int minCentroid = -1;
+
+            FeatureVector vector = data.get(i);
+
+            for (int j = 0; j < centroids.size(); j++) {
+                if(minDistance > vector.distance(centroids.get(j))) {
+                    minDistance = vector.distance(centroids.get(j));
+                    minCentroid = j;
+                }
+            }
+
+            clusters.get(minCentroid).add(vector);
+        }
+    }
 }
