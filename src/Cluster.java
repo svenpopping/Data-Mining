@@ -112,9 +112,15 @@ public class Cluster extends ArrayList<FeatureVector> {
 		if (size() == 0)
 			return null;
 		
-		// add code here
-		
-		return centroid;
+		if (changed) {
+            FeatureVector sum = this.get(0);
+            for (int i = 1; i < this.size(); i++) {
+                sum.sum(this.get(i));
+            }
+            sum.divide(this.size());
+            this.centroid = sum;
+        }
+		return this.centroid;
 	}
 	
 	/**
