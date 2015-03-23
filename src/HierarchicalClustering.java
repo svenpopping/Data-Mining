@@ -88,7 +88,6 @@ public class HierarchicalClustering {
             for (int j = i + 1; j < clusters.size(); j++) {
 //                double distance = this.clusters.get(i).meanDistanceTo(this.clusters.get(j));
                 double distance = this.clusters.get(i).minDistanceTo(this.clusters.get(j));
-                System.out.println(distance);
                 if (distance < minDistance) {
                     minDistance = distance;
                     minI = i;

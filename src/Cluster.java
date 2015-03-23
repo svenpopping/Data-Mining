@@ -143,11 +143,10 @@ public class Cluster extends ArrayList<FeatureVector> {
 		List<Double> result = new ArrayList<Double>();
 
         for (int i = 0; i < this.size(); i++) {
-            for (int j = i + 1; j < other.size(); j++) {
+            for (int j = i; j < other.size(); j++) {
                 result.add(this.get(i).distance(other.get(j)));
             }
         }
-
         return result;
 	}
 	
@@ -159,9 +158,8 @@ public class Cluster extends ArrayList<FeatureVector> {
 		
 		List<Double> distances = this.distancesToCluster(other);
         double min = Double.MAX_VALUE;
-        for (int i = 0; i < distances.size(); i++) {
-            if(distances.get(i) < min)
-                min = distances.get(i);
+        for (Double distance : distances) {
+            if (distance < min) min = distance;
         }
 
         return min;

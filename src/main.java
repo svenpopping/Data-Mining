@@ -14,7 +14,8 @@ public class main {
         // 5.1: Because the distances between the lines are smaller than the distances between the clusters in the same line.
         // Clusters are made between the lines.
 
-
+        // 7.1: Yes its better, because it now checks for the closest distance between two clusters. The lines are now correctly
+        // clustered.
 	}
 	
 	private static void hierarchicalDigits() {
