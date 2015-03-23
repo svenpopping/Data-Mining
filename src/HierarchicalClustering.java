@@ -80,6 +80,23 @@ public class HierarchicalClustering {
 	 * Performs one update step of the algorithm.
 	 */
 	public void update() {
-		// add code here
-	}
+        if (this.clusters.size() <= k) return;
+
+        double minDistance = Double.MAX_VALUE;
+        int minI = -1, minJ = -1;
+        for (int i = 0; i < clusters.size(); i++) {
+            for (int j = i + 1; j < clusters.size(); j++) {
+//                double distance = this.clusters.get(i).meanDistanceTo(this.clusters.get(j));
+                double distance = this.clusters.get(i).minDistanceTo(this.clusters.get(j));
+                System.out.println(distance);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    minI = i;
+                    minJ = j;
+                }
+            }
+        }
+        this.clusters.get(minJ).addAll(this.clusters.get(minI));
+        this.clusters.remove(minI);
+    }
 }

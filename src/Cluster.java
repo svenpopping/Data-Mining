@@ -118,6 +118,7 @@ public class Cluster extends ArrayList<FeatureVector> {
             }
             sum.divide(this.size());
             this.centroid = sum;
+            this.changed = false;
         }
 		return this.centroid;
 	}
@@ -140,10 +141,14 @@ public class Cluster extends ArrayList<FeatureVector> {
 	 */
 	public List<Double> distancesToCluster(Cluster other) {
 		List<Double> result = new ArrayList<Double>();
-		
-		// add code here
-		
-		return result;
+
+        for (int i = 0; i < this.size(); i++) {
+            for (int j = i + 1; j < other.size(); j++) {
+                result.add(this.get(i).distance(other.get(j)));
+            }
+        }
+
+        return result;
 	}
 	
 	/**
@@ -152,10 +157,15 @@ public class Cluster extends ArrayList<FeatureVector> {
 	public double minDistanceTo(Cluster other) {
 		assert (size() != 0 && other.size() != 0);
 		
-		// add code here
-		
-		return 0.0;
-	}
+		List<Double> distances = this.distancesToCluster(other);
+        double min = Double.MAX_VALUE;
+        for (int i = 0; i < distances.size(); i++) {
+            if(distances.get(i) < min)
+                min = distances.get(i);
+        }
+
+        return min;
+    }
 	
 	/**
 	 * Calculates the residual sum of squares (squares of difference with centroid).

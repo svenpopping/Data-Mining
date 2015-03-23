@@ -2,7 +2,19 @@
 public class main {
 	
 	private static void hierarchical() {
-		// add code here
+//		add code here
+//        HierarchicalClusteringPlotter plotter = new HierarchicalClusteringPlotter(3, "data/cluster.txt");
+
+        // 4.1: The leaves, all data points. The root is cluster of all data points. (Dendrogram)
+
+        // 4.2: K is the number of roots in the final tree.
+
+        HierarchicalClusteringPlotter plotter = new HierarchicalClusteringPlotter(3, "data/cluster_lines.txt");
+
+        // 5.1: Because the distances between the lines are smaller than the distances between the clusters in the same line.
+        // Clusters are made between the lines.
+
+
 	}
 	
 	private static void hierarchicalDigits() {
@@ -22,7 +34,7 @@ public class main {
 	}
 
 	public static void main(String[] args) {
-		//hierarchical();
+		hierarchical();
 		//hierarchicalDigits();
 		//kmeans();
 		//kmeansTuneK();
