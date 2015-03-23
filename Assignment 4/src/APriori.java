@@ -90,11 +90,11 @@ public class APriori {
 				}
 			}
 		} else {
-            Object[] p = filteredCandidates.toArray();
+            StringSet[] p = filteredCandidates.toArray(new StringSet[filteredCandidates.size()]);
             for (int i = 0; i < p.length; i++) {
                 for (int j = i + 1; j < p.length; j++) {
-                    StringSet current = new StringSet((StringSet) p[i]);
-                    current.addAll((StringSet) p[j]);
+                    StringSet current = new StringSet(p[i]);
+                    current.addAll(p[j]);
                     if (current.size() == k)
                         candidates.add(current);
                 }

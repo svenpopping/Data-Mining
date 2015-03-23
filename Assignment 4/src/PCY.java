@@ -76,15 +76,6 @@ public class PCY extends APriori {
 		// the result
 		Map<StringSet, Integer> candidatesCount = new HashMap<StringSet, Integer>();
 
-        Set<StringSet> singletons = new HashSet<StringSet>();
-        for (Set<String> basket: baskets) {
-            for (String s: basket) {
-                StringSet sl = new StringSet();
-                sl.add(s);
-                singletons.add(sl);
-            }
-        }
-
         for (int i = 0; i < baskets.size(); i++) {
             Set<StringSet> subSets = getSubsets(baskets.get(i),k);
             Iterator<StringSet> subSetIterator = subSets.iterator();
@@ -99,10 +90,19 @@ public class PCY extends APriori {
             }
         }
 
+        Set<StringSet> singletons = new HashSet<StringSet>();
+        for (Set<String> basket: baskets) {
+            for (String s: basket) {
+                StringSet sl = new StringSet();
+                sl.add(s);
+                singletons.add(sl);
+            }
+        }
+
         StringSet[] singletonArray = singletons.toArray(new StringSet[singletons.size()]);
         for (int i = 0; i < singletonArray.length; i++) {
             StringSet s1 = singletonArray[i];
-            for (int j = i + 1; j < singletonArray.length; j++) {
+            for (int j = 0; j < singletonArray.length; j++) {
                 StringSet s2 = singletonArray[j];
                 StringSet current = new StringSet();
                 current.add(s1.toString().replaceAll("[\\[\\]]",""));
