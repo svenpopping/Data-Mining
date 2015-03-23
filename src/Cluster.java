@@ -37,7 +37,6 @@ public class Cluster extends ArrayList<FeatureVector> {
 	
 	/**
 	 * Constructor.
-	 * @param key
 	 */
 	public Cluster() {
 		changed = true;
@@ -131,11 +130,7 @@ public class Cluster extends ArrayList<FeatureVector> {
 	 * @return The distance between this cluser and the other cluster.
 	 */
 	public double meanDistanceTo(Cluster other) {
-		double dist = 0.0;
-		
-		// add code here
-		
-		return dist;
+        return this.centroid().distance(other.centroid());
 	}
 	
 	/**
