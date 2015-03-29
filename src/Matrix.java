@@ -156,7 +156,15 @@ public class Matrix extends ArrayList<Double> {
 
 		Matrix result = new Matrix(this.rows(), other.cols());
 
-		// add code here
+        for (int c2 = 0; c2 < other.cols(); c2++) {
+            for (int r = 0; r < rows; r++) {
+                double sum = 0.0;
+                for (int c = 0; c < cols; c++) {
+                    sum += get(r, c) * other.get(c, c2);
+                }
+                result.set(r, c2, sum);
+            }
+        }
 
 		return result;
 	}
@@ -169,7 +177,9 @@ public class Matrix extends ArrayList<Double> {
 	public Matrix multiply(double scalar) {
 		Matrix result = (Matrix) this.clone();
 
-		// add code here
+        for (int i = 0; i < size(); i++) {
+            result.set(i, get(i) * scalar);
+        }
 
 		return result;
 	}
@@ -183,8 +193,10 @@ public class Matrix extends ArrayList<Double> {
 		assert(cols() == other.cols() && rows() == other.rows());
 
 		Matrix result = new Matrix(rows(), cols());
-		
-		// add code here
+
+        for (int i = 0; i < size(); i++) {
+            result.set(i, get(i) + other.get(i));
+        }
 
 		return result;
 	}
@@ -195,8 +207,12 @@ public class Matrix extends ArrayList<Double> {
      */
     public Matrix transpose() {
 		Matrix result = new Matrix(cols(), rows());
-     
-		// add code here
+
+        for (int i = 0; i < cols(); i++) {
+            for (int j = 0; j < rows(); j++) {
+                result.set(i,j,this.get(j,i));
+            }
+        }
         
         return result;
     }
@@ -207,10 +223,12 @@ public class Matrix extends ArrayList<Double> {
      */
     public double norm() {
     	double result = 0.0;
-    	
-    	// add code here
-    	
-    	return Math.sqrt(result);
+
+        for (int i = 0; i < size(); i++) {
+            result += Math.pow(this.get(i),2);
+        }
+
+        return Math.sqrt(result);
     }
     
     /**
@@ -230,10 +248,17 @@ public class Matrix extends ArrayList<Double> {
      */
     public Matrix meanRow() {
     	Matrix mean = new Matrix(1, cols());
-    	
-    	// add code here
-    			
-    	return mean;
+
+        for (int i = 0; i < cols(); i++) {
+            double meanCol = 0;
+            for (int j = 0; j < rows(); j++) {
+                meanCol += this.get(j,i);
+            }
+            meanCol = meanCol / rows();
+            mean.set(0,i,meanCol);
+        }
+
+        return mean;
     }
     
     /**
@@ -246,10 +271,14 @@ public class Matrix extends ArrayList<Double> {
     	assert(r.cols() == cols());
     	
     	Matrix result = new Matrix(rows(), cols());
-    	
-    	// add code here
-    	
-    	return result;
+
+        for (int i = 0; i < rows(); i++) {
+            for (int j = 0; j < cols(); j++) {
+                result.set(i,j,this.get(i,j) - r.get(0,j));
+            }
+        }
+
+        return result;
     }
 
 	/**
@@ -267,4 +296,71 @@ public class Matrix extends ArrayList<Double> {
 		return result.substring(0, result.length() - 3) + "]\n";
 	}
 
+    /**
+     * Multiply Matrix with vector.
+     */
+    public Matrix multWithVector(Matrix v) {
+        assert(this.cols() == v.rows());
+
+        Matrix result = new Matrix(this.rows,1);
+
+        for (int i = 0; i < rows(); i++) {
+            double colTotal = 0;
+            for (int j = 0; j < cols(); j++) {
+                colTotal += this.get(i,j) * v.get(j,0);
+            }
+            result.set(i,0,colTotal);
+        }
+
+        return result;
+    }
+
+    /**
+     * Multiply vector with vector.
+     */
+    public Matrix multVectors(Matrix v) {
+        assert(this.rows() == v.cols());
+
+        Matrix result = new Matrix(this.rows,this.rows);
+
+        for (int i = 0; i < rows(); i++) {
+            for (int j = 0; j < rows(); j++) {
+                result.set(i,j,this.get(i,0)*v.get(0,j));
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Divides the matrix with a scalar, scaling each element in the matrix.
+     * @param scalar The scalar with which to divide each element.
+     * @return A new matrix with scaled elements.
+     */
+    public Matrix divide(double scalar) {
+        Matrix result = (Matrix) this.clone();
+
+        for (int i = 0; i < size(); i++) {
+            result.set(i, get(i) / scalar);
+        }
+
+        return result;
+    }
+
+    /**
+     * Subtracts one matrix to another. They need to be of the same size.
+     * @param other The other matrix.
+     * @return A new matrix where all elements of the two matrices have been subtracted.
+     */
+    public Matrix subtract(Matrix other) {
+        assert(cols() == other.cols() && rows() == other.rows());
+
+        Matrix result = new Matrix(rows(), cols());
+
+        for (int i = 0; i < size(); i++) {
+            result.set(i, get(i) - other.get(i));
+        }
+
+        return result;
+    }
 }
