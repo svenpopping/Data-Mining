@@ -1,5 +1,6 @@
 package ti2736c;
 
+import java.util.HashMap;
 import java.util.Locale;
 
 public class main {
@@ -28,18 +29,19 @@ public class main {
 	public static RatingList predictRatings(UserList userList,
 			MovieList movieList, RatingList ratingList, RatingList predRatings) {
 
-		// Compute mean of ratings
-		double mean = ratingList.get(0).getRating();
-		for (int i = 1; i < ratingList.size(); i++) {
-			mean = ((double) i / ((double) i + 1.0)) * mean
-					+ (1.0 / ((double) i + 1.0))
-					* ratingList.get(i).getRating();
-		}
+//        HashMap<String,Double> movieMeans = new HashMap<String, Double>();
+        for (int i = 0; i < predRatings.size(); i++) {
+//            if (movieMeans.get(predRatings.get(i).getMovie().getTitle()) == null) {
+                Movie currentMovie = predRatings.get(i).getMovie();
+                RatingList eqMovieRatings = ratingList.movieRatings(currentMovie);
+                double mean = eqMovieRatings.meanRating();
+                movieMeans.put(predRatings.get(i).getMovie().getTitle(),mean);
+//            }
 
-		// Predict mean everywhere
-		for (int i = 0; i < predRatings.size(); i++) {
-			predRatings.get(i).setRating(mean);
-		}
+
+//            predRatings.get(i).setRating(movieMeans.get(predRatings.get(i).getMovie().getTitle()));
+            System.out.println(i);
+        }
 
 		// Return predictions
 		return predRatings;

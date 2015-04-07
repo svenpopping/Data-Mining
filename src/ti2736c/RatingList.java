@@ -1,6 +1,7 @@
 package ti2736c;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -57,4 +58,34 @@ public class RatingList extends ArrayList<Rating> {
 		}
 
 	}
+
+    /**
+     * Returns all ratings for movie m.
+     */
+    public RatingList movieRatings(Movie m) {
+        RatingList result = new RatingList();
+        Iterator<Rating> ratingIterator = this.iterator();
+        while (ratingIterator.hasNext()) {
+            Rating current = ratingIterator.next();
+            if (current.getMovie().equals(m))
+                result.add(current);
+        }
+        return result;
+    }
+
+    /**
+     * Returns the mean rating of a RatingList
+     */
+    public double meanRating() {
+        if (this.size() > 0) {
+            double result = 0;
+            for (int i = 0; i < this.size(); i++) {
+                result += this.get(i).getRating();
+            }
+            return result / this.size();
+        } else
+            return 3.0;
+    }
+
+
 }
