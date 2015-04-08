@@ -26,24 +26,41 @@ public class main {
 		predRatings.writeResultsFile("submission.csv");
 	}
 
-	public static RatingList predictRatings(UserList userList,
-			MovieList movieList, RatingList ratingList, RatingList predRatings) {
+    public static RatingList predictRatings(UserList userList,
+            MovieList movieList, RatingList ratingList, RatingList predRatings) {
 
-//        HashMap<String,Double> movieMeans = new HashMap<String, Double>();
         for (int i = 0; i < predRatings.size(); i++) {
-//            if (movieMeans.get(predRatings.get(i).getMovie().getTitle()) == null) {
-                Movie currentMovie = predRatings.get(i).getMovie();
-                RatingList eqMovieRatings = ratingList.movieRatings(currentMovie);
-                double mean = eqMovieRatings.meanRating();
-                movieMeans.put(predRatings.get(i).getMovie().getTitle(),mean);
-//            }
+            Movie currentMovie = predRatings.get(i).getMovie();
+            User currentUser = predRatings.get(i).getUser();
+            RatingList eqMovieRatings = ratingList.movieRatings(currentMovie);
+            double result = eqMovieRatings.expectedRating(predRatings.get(i));
+            predRatings.get(i).setRating(result);
 
-
-//            predRatings.get(i).setRating(movieMeans.get(predRatings.get(i).getMovie().getTitle()));
             System.out.println(i);
         }
 
-		// Return predictions
-		return predRatings;
-	}
+        // Return predictions
+        return predRatings;
+    }
+
+//	public static RatingList predictRatings(UserList userList,
+//			MovieList movieList, RatingList ratingList, RatingList predRatings) {
+//
+//        HashMap<String,Double> movieMeans = new HashMap<String, Double>();
+//        for (int i = 0; i < predRatings.size(); i++) {
+//            if (movieMeans.get(predRatings.get(i).getMovie().getTitle()) == null) {
+//                Movie currentMovie = predRatings.get(i).getMovie();
+//                RatingList eqMovieRatings = ratingList.movieRatings(currentMovie);
+//                double mean = eqMovieRatings.meanRating();
+//                movieMeans.put(predRatings.get(i).getMovie().getTitle(),mean);
+//            }
+//
+//
+//            predRatings.get(i).setRating(movieMeans.get(predRatings.get(i).getMovie().getTitle()));
+//            System.out.println(i);
+//        }
+//
+//		// Return predictions
+//		return predRatings;
+//	}
 }

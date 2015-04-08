@@ -74,6 +74,20 @@ public class RatingList extends ArrayList<Rating> {
     }
 
     /**
+     * Returns all ratings by user u.
+     */
+    public RatingList userRatings(User u) {
+        RatingList result = new RatingList();
+        Iterator<Rating> ratingIterator = this.iterator();
+        while (ratingIterator.hasNext()) {
+            Rating current = ratingIterator.next();
+            if (current.getUser().equals(u))
+                result.add(current);
+        }
+        return result;
+    }
+
+    /**
      * Returns the mean rating of a RatingList
      */
     public double meanRating() {
@@ -85,6 +99,59 @@ public class RatingList extends ArrayList<Rating> {
             return result / this.size();
         } else
             return 3.0;
+    }
+
+    /**
+     * Returns weighted rating
+     */
+    public double expectedRating(Rating currentRating) {
+        if (this.size() > 0) {
+            double result = 0;
+            double size = 0;
+            User current = currentRating.getUser();
+            for (int i = 0; i < this.size(); i++) {
+                double currentWeight = 0.0;
+                User other = this.get(i).getUser();
+
+                if (current.isMale() == other.isMale())
+                    currentWeight += 15;
+
+                if (current.getAge() == other.getAge())
+                    currentWeight += 25;
+                else
+                    currentWeight += 20 / Math.abs(current.getAge() - other.getAge());
+
+                if (current.getProfession() == other.getProfession())
+                    currentWeight += 25;
+
+                size += currentWeight;
+                result += currentWeight * this.get(i).getRating();
+            }
+            result = result / size;
+            if (!Double.isNaN(result))
+                return result;
+            else
+                return 3.0;
+        } else {
+            RatingList userRatings = this.userRatings(currentRating.getUser());
+            double result = 0.0;
+            double size = 0.0;
+            for (int i = 0; i < userRatings.size(); i++) {
+                double yearDiff = Math.abs(currentRating.getMovie().getYear() - userRatings.get(i).getMovie().getYear());
+                if (yearDiff == 0.0) {
+                    result += 110 + userRatings.get(i).getRating();
+                    size += 110;
+                } else {
+                    result += 100 / yearDiff * userRatings.get(i).getRating();
+                    size += 100 / yearDiff;
+                }
+            }
+            result = result / size;
+            if (!Double.isNaN(result))
+                return result;
+            else
+                return 3.0;
+        }
     }
 
 
