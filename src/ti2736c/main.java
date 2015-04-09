@@ -1,7 +1,6 @@
 package ti2736c;
 
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.*;
 
 public class main {
 
@@ -28,15 +27,34 @@ public class main {
 
     public static RatingList predictRatings(UserList userList,
             MovieList movieList, RatingList ratingList, RatingList predRatings) {
-
+        HashMap<Integer,HashMap<Integer,Double>> ratedMovies = ratingList.ratedMovies();
+        HashMap<Integer,HashMap<Integer,Double>> equalUsers = new HashMap<Integer,HashMap<Integer,Double>>();
+        UserList predictionUsers = predRatings.getUserList();
+        for (int i = 0; i < predictionUsers.size(); i++) {
+            equalUsers.put(predictionUsers.get(i).getIndex(),predictionUsers.get(i).equalUsers(userList,ratedMovies));
+            System.out.println(i);
+        }
         for (int i = 0; i < predRatings.size(); i++) {
-            Movie currentMovie = predRatings.get(i).getMovie();
             User currentUser = predRatings.get(i).getUser();
-            RatingList eqMovieRatings = ratingList.movieRatings(currentMovie);
-            double result = eqMovieRatings.expectedRating(predRatings.get(i));
-            predRatings.get(i).setRating(result);
+            Movie currentMovie = predRatings.get(i).getMovie();
+
+            Iterator<Map.Entry<Integer,Double>> equalsIterator = equalUsers.get(currentUser.getIndex()).entrySet().iterator();
+            double totalScore = 0.0;
+            double size = 0.0;
+            while (equalsIterator.hasNext()){
+                Map.Entry<Integer,Double> current = equalsIterator.next();
+                if (ratedMovies.get(current.getKey()).get(currentMovie.getIndex()) != null) {
+                    totalScore += current.getValue() * ratedMovies.get(current.getKey()).get(currentMovie.getIndex());
+                    size += current.getValue();
+                }
+            }
 
             System.out.println(i);
+            double result = totalScore / size;
+            if (Double.isFinite(result) && !Double.isNaN(result))
+                predRatings.get(i).setRating(result);
+            else
+                predRatings.get(i).setRating(3.0);
         }
 
         // Return predictions

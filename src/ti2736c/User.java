@@ -1,5 +1,10 @@
 package ti2736c;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+
 public class User {
 
     int index, age, profession;
@@ -27,5 +32,45 @@ public class User {
     public int getProfession() {
         return profession;
     }
-    
+
+    public double equality(User other, HashMap<Integer,HashMap<Integer,Double>> ratedMovies) {
+        double equality = 0.0;
+
+        if (this.isMale() == other.isMale())
+            equality += 60;
+
+        if (this.getAge() == other.getAge())
+            equality += 60;
+        else if (Math.abs(this.getAge() - other.getAge()) <= 5)
+            equality += 60 - 10 * Math.abs(this.getAge() - other.getAge());
+
+        if (this.getProfession() == other.getProfession())
+            equality += 60;
+
+        HashMap<Integer,Double> thisRatings = ratedMovies.get(getIndex());
+        HashMap<Integer,Double> otherRatings = ratedMovies.get(other.getIndex());
+        Iterator<Map.Entry<Integer,Double>> thisIterator = thisRatings.entrySet().iterator();
+        while (thisIterator.hasNext()){
+            Map.Entry<Integer,Double> current = thisIterator.next();
+            if (otherRatings.get(current.getKey()) != null) {
+                double difference = current.getValue() - otherRatings.get(current.getKey());
+                if (difference == 0)
+                    equality += 25;
+                else if (difference == 1)
+                    equality += 10;
+            }
+        }
+
+        return equality;
+    }
+
+    public HashMap<Integer,Double> equalUsers(UserList users, HashMap<Integer,HashMap<Integer,Double>> ratedMovies) {
+        HashMap<Integer,Double> result = new HashMap<Integer, Double>();
+        for (int i = 0; i < users.size(); i++) {
+            double currentEquality = this.equality(users.get(i),ratedMovies);
+            if (currentEquality > 200)
+                result.put(users.get(i).getIndex(),currentEquality);
+        }
+        return result;
+    }
 }

@@ -1,6 +1,7 @@
 package ti2736c;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.io.FileReader;
@@ -101,6 +102,37 @@ public class RatingList extends ArrayList<Rating> {
             return 3.0;
     }
 
+    public UserList getUserList() {
+        Iterator<Rating> ratingIterator = this.iterator();
+        UserList users = new UserList();
+        while (ratingIterator.hasNext()) {
+            User current = ratingIterator.next().getUser();
+            if (!users.contains(current))
+                users.add(current);
+        }
+
+        return users;
+    }
+
+    /**
+     * Returns an HashMap with an HashMap filled with all the rated movies by each user.
+     */
+    public HashMap<Integer,HashMap<Integer,Double>> ratedMovies() {
+        HashMap<Integer,HashMap<Integer,Double>> result = new HashMap<Integer,HashMap<Integer,Double>>();
+        for (int i = 0; i < this.size(); i++) {
+            HashMap<Integer,Double> current = result.get(this.get(i).getUser().getIndex());
+            if (current == null)
+                current = new HashMap<Integer, Double>();
+
+            current.put(this.get(i).getMovie().getIndex(),this.get(i).getRating());
+            result.remove(this.get(i).getUser().getIndex());
+
+            result.put(this.get(i).getUser().getIndex(),current);
+        }
+
+        return result;
+    }
+
     /**
      * Returns weighted rating
      */
@@ -114,21 +146,21 @@ public class RatingList extends ArrayList<Rating> {
                 User other = this.get(i).getUser();
 
                 if (current.isMale() == other.isMale())
-                    currentWeight += 15;
+                    currentWeight += 20;
 
                 if (current.getAge() == other.getAge())
-                    currentWeight += 25;
-                else
-                    currentWeight += 20 / Math.abs(current.getAge() - other.getAge());
+                    currentWeight += 55;
+                else if (2 * Math.abs(current.getAge() - other.getAge()) > 0)
+                    currentWeight += 50 - 2 * Math.abs(current.getAge() - other.getAge());
 
                 if (current.getProfession() == other.getProfession())
-                    currentWeight += 25;
+                    currentWeight += 50;
 
                 size += currentWeight;
                 result += currentWeight * this.get(i).getRating();
             }
             result = result / size;
-            if (!Double.isNaN(result))
+            if (!Double.isNaN(result) && Double.isFinite(result))
                 return result;
             else
                 return 3.0;
