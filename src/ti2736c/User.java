@@ -37,15 +37,15 @@ public class User {
         double equality = 0.0;
 
         if (this.isMale() == other.isMale())
-            equality += 60;
+            equality += 20;
 
         if (this.getAge() == other.getAge())
-            equality += 60;
+            equality += 50;
         else if (Math.abs(this.getAge() - other.getAge()) <= 5)
-            equality += 60 - 10 * Math.abs(this.getAge() - other.getAge());
+            equality += 50 - 10 * Math.abs(this.getAge() - other.getAge());
 
         if (this.getProfession() == other.getProfession())
-            equality += 60;
+            equality += 40;
 
         HashMap<Integer,Double> thisRatings = ratedMovies.get(getIndex());
         HashMap<Integer,Double> otherRatings = ratedMovies.get(other.getIndex());
@@ -57,7 +57,7 @@ public class User {
                 if (difference == 0)
                     equality += 25;
                 else if (difference == 1)
-                    equality += 10;
+                    equality += 5;
             }
         }
 
