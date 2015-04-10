@@ -4,7 +4,8 @@ import java.util.List;
 
 
 public class main {
-	
+
+    // 0.0: M * v = lambda * v
 	/**
 	 * Computes nrVectors eigen vectors of m where e is the
 	 * stopping criterion for the norm of the difference for an
@@ -49,8 +50,8 @@ public class main {
         System.out.println(powerIteration(test,2,0.0001));
 
         // 3.1: There can be at most D eigenvectors
-        // 3.2: They are decreasing. They indicate the importance of the eigenvector
-        // 3.3: TODO
+        // 3.2: They are decreasing. They indicate the importance of the eigenvector.
+        // 3.3: In assignment 3, we used it for PageRank.
     }
 
 	/**
@@ -62,7 +63,6 @@ public class main {
         PCAPlotter plotter1 = new PCAPlotter();
         plotter1.plotData(X);
 
-        // 1.1: TODO
 
         Matrix mX = X.meanRow();
         Matrix Y = X.subtractRow(mX);
@@ -71,7 +71,7 @@ public class main {
         List<Matrix> eigenVectors = powerIteration(covariance,covariance.cols(),0.0001);
         plotter1.plotEigenvectors(eigenVectors);
 
-        // 2.1: TODO
+        // 2.1: The "x"-axis This was the first pc.
     }
 	
 	/**
@@ -91,7 +91,7 @@ public class main {
             ImageFrame faces = new ImageFrame("Faces " + i,eigenVectors.get(i),32,32);
         }
 
-        // 4.1: TODO
+        // 4.1: The importance of the different parts of a face during face recognition.
     }
 
 	public static void main(String[] args) {
